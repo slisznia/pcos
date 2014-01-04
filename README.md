@@ -32,13 +32,23 @@ Fundamental Types
 PCOS serialization supports a range of primitive types. Each one is represented by a reserved keyword and has an associated storage and encoding attributes.  All PCOS messages, including those carrying user-defined types, can be broken down to a series of fields defined solely by these fundamental types:
 
 |Name |Serialized Size |Range |Description|
+
+|-----|----------------|------|-----------|
+
 |byte |8-bits |0 to 255 |Typically used to store opaque binary data.|
+
 |bool |8-bit |0 to 1 |Used for representing Boolean values of True (1) or False (0).|
+
 |int |variable |—(2^31) to 2^31 — 1 |int32 ZigZag encoded signed varint. Varint encoding is described below.|
+
 |uint |variable |0 to 2^32 — 1 |unsigned int32 varint.|
+
 |long |variable |—(2^63) to 2^63 — 1 |int64 ZigZag encoded signed varint. Varint encoding is described below.|
+
 |ulong |variable |0 to 2^64 — 1 |unsigned int64 varint.|
+
 |double |64-bit |1.7E ± 308 (15 digits) |IEEE 754 floating point|
+
 |string |variable ||uint followed by a UTF-8 encoded byte-string.|
 
 
