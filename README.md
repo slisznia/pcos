@@ -1,26 +1,26 @@
 
 # Portable, Compact Object Serialization (PCOS)
 
-PCOS is a binary-encoding that is both language and platform neutral. It sup­ports basic types, such as integers, strings and bytes as well as user-defined types. User-defined types can be arbitrarily nested, forming even more complex structures.
+PCOS is a binary-encoding originally designed at PushCoin for inter-application messaging. The serialization is both language and platform neutral. It supports basic types, such as integers, strings and bytes as well as user-defined compound types. User-defined types can nest, forming even more complex types.
 
-PCOS borrows from other bin­ary inter­change for­mats, such that it’s schema-based. One major distinction is that PCOS is not "name-value pair" on the wire, making PCOS less extensible1, but very compact and efficient to parse.
-
-Any participant of PushCoin, such as a mobile application or a point-of-sale system, must emit and consume PCOS-compatible messages. Information which follows outlines the rules for building such messages.
+PCOS borrows from other binary interchange formats, such that it's schema-based. One major distinction is that PCOS is not a "name-value pair" on the wire, making PCOS very compact and efficient to parse.
 
 PCOS reference implementations for various languages can be found in this repository.
+
+Information which follows outlines the rules for building PCOS messages.
 
 # License
 
 Prtable, Compact Object Serialization is licensed under the Creative Commons Attribution 3.0 Unported License. 
 http://creativecommons.org/licenses/by/3.0/
 
-# Table of Contents
+## Table of Contents
 
-	* Primitive types
-	* Type aliases and combound types
-	* Arrays
-	* Optional fields
-	* Message structure 
+### Primitive types
+### Type aliases and combound types
+### Arrays
+### Optional fields
+### Message structure 
 
 ## Primitive types
 
