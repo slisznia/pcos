@@ -216,13 +216,13 @@ A PCOS message is made of __segments__. The first two segments are mandatory and
 
 1. __Message Header__ segment.
 2. __Data Block Enumeration__ segment.
-3. __Data Block__ segments (zero or more) .
+3. __Data Block__ segment (zero or more) .
 
 Next, we go over each of the segments explaining its structure and purpose.
 
-## The Message Header segment
+### The Message Header segment
 
-The PCOS Message Header is a data structure present in all PCOS messages. It has the following definition:
+The __Message Header__ identifies a PCOS message on the wire. It is a mandatory segment in all PCOS messages and is defined as follows:
 
 ```
 type message_header
@@ -235,9 +235,9 @@ type message_header
 
 ### The Data Block Enumeration segment
 
-Following the Message Header, starts the Data Block Enumeration segment. This segment enumerates all the data blocks — their identifiers and sizes — present in the message. Thanks to the enumeration segment, the parsing code can quickly locate blocks of interest, while skipping blocks it does not care about.
+Following the __Message Header__, starts the mandatory __Data Block Enumeration__ segment. This segment enumerates all (or zero) data blocks — their identifiers and sizes — present in the message. Thanks to the enumeration segment, the receiving side can quickly locate blocks of interest, while skipping blocks it does not care about.
 
-First, we define the data block-meta structure, which briefly describes a single data block:
+First, we define the data block-meta structure, which describes a single data block:
 
 ```
 type data_block_meta
@@ -258,7 +258,7 @@ type block_enumeration
 
 ### The Data Block segment
 
-Finally we arrive at the last and optional segment of the PCOS message — the Data Block segment. All user data, such as transaction or account information, must reside in a Data Block.
+At last, we arrive at the optional segment of the PCOS message — the __Data Block__ segment. All user data, such as transaction or account information, resides in the Data Block segment.
 
 A message may have zero or more data blocks and each data block may have a unique composition of user-defined or primitive types.
 
