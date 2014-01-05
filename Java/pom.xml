@@ -6,7 +6,7 @@
 	<groupId>com.pushcoin.lib.pcos</groupId>
 	<artifactId>pcos</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>PushCoin PCOS Archetype</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
