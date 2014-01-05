@@ -51,31 +51,31 @@ PCOS encodes signed varint integers by mapping them to unsigned integers using a
 
 To zig-zag encode an int32 number, one can apply the following transformation:
 
-'''
+```
 encode_zigzag32( n ):
         return (n << 1) ^ (n >> 31)
-'''
+```
 
 To zig-zag encode an int64 number:
 
-'''
+```
 encode_zigzag64( n ):
         return (n << 1) ^ (n >> 63)
-'''
+```
 
 Correspondingly, to unwrap a zig-zag number, we apply this transformation:
 
-'''
+```
 decode_zigzag( n ):
         return (n >> 1) ^ (-(n & 1))
-'''
+```
 
 
 ## Varint example
 
 For example, a number 160 encoded as signed varint looks like so:
 
-'''
+```
 1000 0010 0100 0000
 
 The application reads one byte at a time, starting with the first octet:
@@ -106,7 +106,7 @@ OR               100 0000
 decode_zigzag( 320 ) == 160
 
 The last step, un-zigzag, would be omitted if the field was declared unsigned varint (uint).
-'''
+```
 
 # Type aliases and user-defined types
 
@@ -122,10 +122,10 @@ type <new-type-name> : <existing type>;
 
 Examples:
 
-'''
+```
 type account_id : uint; // type alias of primitive type
 type member_id : account_id; // type alias of another alias
-'''
+```
 
 Changing the type of a field may break binary compatibility with existing applications which already rely on the previous type. Thus, type aliasing does not ensure backwards compatibility.
 
@@ -135,13 +135,13 @@ User-defined types are compositions of fields of primitive or user-defined types
 
 To create a user-defined type, use the type keyword as follows:
 
-'''
+```
 type <new-type-name> { <semicolon-separated list of fields> };
-'''
+```
 
 Example:
 
-'''
+```
   type address
   {
     street : string;  // variable-length character array
@@ -149,7 +149,7 @@ Example:
     zip : byte[5];  // fixed-length byte array
     state_code : string;  // variable-length character array
   };
-'''
+```
 
 # Array
 
@@ -159,17 +159,17 @@ An array is an ordered collection of values. The elements of an array can be of 
 
 An array with a constant size is called a fixed-length array. It’s declared as:
 
-'''
+```
 type <identifier> : <type-of-an-array>[<positive integer>];
-'''
+```
 
 For example:
 
-'''
+```
 type checksum : byte[50];
 type names : string[7]; # array of 7 strings
 type factors : double[7];
-'''
+```
 
 The fixed-length array has no length indicator on the wire since number of elements is always constant (as defined in the schema).
 
@@ -177,17 +177,17 @@ The fixed-length array has no length indicator on the wire since number of eleme
 
 An array that doesn’t define an upper limit on it’s element count is called variable-length array. It’s declared as:
 
-'''
+```
 type <identifier> : <type-of-an-array>[];
-'''
+```
 
 For example:
 
-'''
+```
 type checksum : byte[];
 type names : string[];
 type factors : double[];
-'''
+```
  
 The variable-length array has the following properties:
 
@@ -217,14 +217,14 @@ Next, we go over each of the segments explaining their structure and purpose.
 
 The PCOS Message Header is a data structure present in all PCOS messages. It has the following definition:
 
-'''
+```
 type message_header
 {
   magic : byte[4], const="PCOS";
   flags: byte, const=0; # reserved for future use
   message_id : string;
 };
-'''
+```
 
 ## The Data Block Enumeration segment
 
@@ -232,22 +232,22 @@ Following the Message Header, starts the Data Block Enumeration segment. This se
 
 First, we define the data block-meta structure, which briefly describes a single data block:
 
-'''
+```
 type data_block_meta
 {
   block_id : string;
   block_length : uint;
 };
-'''
+```
 
 The Data Block Enumeration is defined as variable-length array of data_block_meta values:
 
-'''
+```
 type block_enumeration
 {
   blocks : data_block_meta[];
 };
-'''
+```
 
 ## The Data Block segment
 
@@ -261,7 +261,7 @@ All PCOS messages have their data blocks defined in this SDK and are guaranteed 
 
 Putting all this together, let’s describe an absolute minimum PCOS message that we can encounter:
 
-'''
+```
 type pcos_message
 {
   # Header (7 bytes):
@@ -271,7 +271,7 @@ type pcos_message
   # empty block enumeration (1 byte for variable-length array size)
   block_enum : block_enumeration;
 };
-'''
+```
 
 Above tells us that the shortest PCOS message, one without any data blocks, is 8 bytes long. This is helpful as any payload shorter than that is simply not a valid PCOS message!
 
