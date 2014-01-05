@@ -115,7 +115,7 @@ varint (uint).
 
 ## Type aliases and user-defined types
 
-PCOS supports user-defined types and type aliases. With the type keyword we can assign alternative names to existing types or create composite, user-defined types.
+PCOS supports user-defined types and type aliases. With the keyword `type` we can assign alternative names to existing types or create composite (user-defined) types.
 
 ### Type aliases
 
@@ -123,7 +123,9 @@ Type aliases are user-defined names for existing types. Providing a descriptive 
 
 To create a type-alias, use the type keyword as follows:
 
+```
 type <new-type-name> : <existing type>;
+```
 
 Examples:
 
