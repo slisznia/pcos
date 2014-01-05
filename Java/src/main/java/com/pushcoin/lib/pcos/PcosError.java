@@ -32,7 +32,7 @@ public class PcosError extends Exception
 		code_ = ercode.code;
 	}
 
-	int getCode() {
+	public int getCode() {
 		return code_;
 	}
 }
