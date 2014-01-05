@@ -1,6 +1,5 @@
-PCOS - Portable Compact Object Serialization
 
-# Intro
+# Portable, Compact Object Serialization (PCOS)
 
 PCOS is a binary-encoding that is both language and platform neutral. It sup­ports basic types, such as integers, strings and bytes as well as user-defined types. User-defined types can be arbitrarily nested, forming even more complex structures.
 
@@ -8,21 +7,22 @@ PCOS borrows from other bin­ary inter­change for­mats, such that it’s schem
 
 Any participant of PushCoin, such as a mobile application or a point-of-sale system, must emit and consume PCOS-compatible messages. Information which follows outlines the rules for building such messages.
 
-PCOS reference implementations for various languages can be found in project’s GitHub.
-
-	* Fundamental types
-	* User types and type aliases
-	* Array
-	* Optional fields
-	* Message structure 
-
+PCOS reference implementations for various languages can be found in this repository.
 
 # License
 
 Prtable, Compact Object Serialization is licensed under the Creative Commons Attribution 3.0 Unported License. 
 http://creativecommons.org/licenses/by/3.0/
 
-# Fundamental Types
+# Table of Contents
+
+	* Primitive types
+	* Type aliases and combound types
+	* Arrays
+	* Optional fields
+	* Message structure 
+
+## Primitive types
 
 PCOS serialization supports a range of primitive types. Each one is represented by a reserved keyword and has an associated storage and encoding attributes.  All PCOS messages, including those carrying user-defined types, can be broken down to a series of fields defined solely by these fundamental types:
 
@@ -39,7 +39,7 @@ PCOS serialization supports a range of primitive types. Each one is represented 
 </table>
 
 
-## Varint datatype
+### Varint datatype
 
 Varints is a space-efficient encoding of integers. Each byte contains the next 7 big-endian bits of the integer. The low bits of the byte store number data with the high bit of the byte used to indicate if another byte is required.
 
@@ -71,9 +71,9 @@ decode_zigzag( n ):
 ```
 
 
-## Varint example
+### Varint example
 
-For example, a number 160 encoded as signed varint looks like so:
+A number 160 encoded as signed varint looks like so:
 
 ```
 1000 0010 0100 0000
@@ -108,11 +108,11 @@ decode_zigzag( 320 ) == 160
 The last step, un-zigzag, would be omitted if the field was declared unsigned varint (uint).
 ```
 
-# Type aliases and user-defined types
+## Type aliases and user-defined types
 
 PCOS supports user-defined types and type aliases. With the type keyword we can assign alternative names to existing types or create composite, user-defined types.
 
-## Type aliases
+### Type aliases
 
 Type aliases are user-defined names for existing types. Providing a descriptive name for a type may clarify the purpose of the data, otherwise potentially confusing to the user. It also simplifies the process of changing the underlying data-type of a field, specially if the field exists in many definitions.
 
@@ -129,11 +129,11 @@ type member_id : account_id; // type alias of another alias
 
 Changing the type of a field may break binary compatibility with existing applications which already rely on the previous type. Thus, type aliasing does not ensure backwards compatibility.
 
-## User-defined types
+## Compound types
 
-User-defined types are compositions of fields of primitive or user-defined types. There is no limit on nesting of user-defined types, but do keep in mind that accessing most inner value may be cumbersome.
+Compund types, or user-defined types, are compositions of primitive or user-defined types. There is no limit on nesting of user-defined types.
 
-To create a user-defined type, use the type keyword as follows:
+To create a compound type, use the type keyword as follows:
 
 ```
 type <new-type-name> { <semicolon-separated list of fields> };
@@ -151,11 +151,11 @@ Example:
   };
 ```
 
-# Array
+## Arrays
 
-An array is an ordered collection of values. The elements of an array can be of primitive type or user-defined type. All of the values in an array must be of the same type. The type of the array is the type of the values it holds, followed by the characters [].
+An array is an ordered collection of values. Elements of an array can be of primitive or user-defined type. All of the values in an array must be of the same type. The type of the array is the type of the values it holds, followed by [] characters.
 
-## Fixed-length array
+### Fixed-length array
 
 An array with a constant size is called a fixed-length array. It’s declared as:
 
@@ -171,9 +171,9 @@ type names : string[7]; # array of 7 strings
 type factors : double[7];
 ```
 
-The fixed-length array has no length indicator on the wire since number of elements is always constant (as defined in the schema).
+The fixed-length array has no length indicator on the wire since number of elements is always constant, as defined in the schema.
 
-## Variable-length array
+### Variable-length array
 
 An array that doesn’t define an upper limit on it’s element count is called variable-length array. It’s declared as:
 
@@ -195,7 +195,7 @@ The variable-length array has the following properties:
 * The length indicator is always present on the wire indicating the number of elements in the array.
 * The datatype of the length indicator is uint, an unsigned varint. 
 
-# Optional fields
+## Optional fields
 
 Fields in a data-block can have optional specifier. When a field is marked as optional, it’s an indication that a value may not be present. When serialized, optional fields are prefixed with a bool field indicating if the data is present, followed by the data itself.
 
@@ -203,9 +203,9 @@ Below is an example of a "distance" field declared as optional. This field would
 
 distance : double, optional;
 
-# Message Structure
+## Message Structure
 
-The PCOS message is made up of three types of segments:
+The PCOS message is made up of three segments:
 
 * Message Header segment
 * Data Block Enumeration segment
@@ -226,7 +226,7 @@ type message_header
 };
 ```
 
-## The Data Block Enumeration segment
+### The Data Block Enumeration segment
 
 Following the Message Header, starts the Data Block Enumeration segment. This segment enumerates all the data blocks — their identifiers and sizes — present in the message. Thanks to the enumeration segment, the parsing code can quickly locate blocks of interest, while skipping blocks it does not care about.
 
@@ -249,7 +249,7 @@ type block_enumeration
 };
 ```
 
-## The Data Block segment
+### The Data Block segment
 
 Finally we arrive at the last segment type of the PCOS message — the Data Block segment. All message data, such as transaction and account information, must reside in a data block.
 
@@ -257,7 +257,7 @@ A message may have zero or more data blocks and each data block may have a uniqu
 
 All PCOS messages have their data blocks defined in this SDK and are guaranteed to stay binary compatible in the foreseeable future.
 
-## Minimum PCOS message
+### Minimum PCOS message
 
 Putting all this together, let’s describe an absolute minimum PCOS message that we can encounter:
 
@@ -275,10 +275,10 @@ type pcos_message
 
 Above tells us that the shortest PCOS message, one without any data blocks, is 8 bytes long. This is helpful as any payload shorter than that is simply not a valid PCOS message!
 
-## Recommended and maximum message lengths
+### Recommended and maximum message lengths
 
 The PCOS protocol attempts to minimize the serialized message footprint. The recommended guideline for the PCOS serialized message length is 1024 bytes or less. Messages above 4096 bytes in length may be considered a DoS attack and be discarded.
 
-
+------------
 The End
 
