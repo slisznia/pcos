@@ -9,10 +9,21 @@ PCOS reference implementations for various languages can be found in this reposi
 
 Information which follows outlines the rules for building PCOS messages.
 
-# License
+## License
 
-Prtable, Compact Object Serialization is licensed under the Creative Commons Attribution 3.0 Unported License. 
-http://creativecommons.org/licenses/by/3.0/
+__Portable Compact Object Serialization__ is licensed under the Creative Commons Attribution 3.0 Unported License.
+
+### You are free to...
+
+* Share - copy and redistribute the material in any medium or format
+* Adapt - remix, transform, and build upon the material for any purpose, even commercially.
+* The licensor cannot revoke these freedoms as long as you follow the license terms.
+
+### Attribution
+
+You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. 
+
+For full license terms visit http://creativecommons.org/licenses/by/3.0/
 
 ## Table of Contents
 
