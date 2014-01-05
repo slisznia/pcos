@@ -164,7 +164,7 @@ An array is an ordered collection of values. Elements of an array are of primiti
 
 ### Fixed-length array
 
-An array with a constant size is called a fixed-length array. It’s declared as:
+An array with a constant size is called a fixed-length array. It's declared as:
 
 ```
 type <identifier> : <type-of-an-array>[<positive integer>];
@@ -182,7 +182,7 @@ The fixed-length array has no length indicator on the wire since number of eleme
 
 ### Variable-length array
 
-An array that doesn’t define an upper limit on it’s element count is called variable-length array. It’s declared as:
+An array that doesn't define an upper limit on it's element count is called variable-length array. It's declared as:
 
 ```
 type <identifier> : <type-of-an-array>[];
@@ -204,9 +204,9 @@ The variable-length array has the following properties:
 
 ## Optional fields
 
-Fields in a data-block can have optional specifier. When a field is marked as optional, it’s an indication that a value may not be present on the wire. When serialized, optional fields are prefixed with a bool field indicating if the data is present, followed by the data itself.
+Fields in a data-block can have optional specifier. When a field is marked as optional, it's an indication that a value may not be present on the wire. When serialized, optional fields are prefixed with a bool field indicating if the data is present, followed by the data itself.
 
-Below is an example of a `distance` field declared as optional. This field would occupy either 1 byte on the wire, if the value was not present, or 9 bytes if the value was present (double consumes 8 bytes on the wire).
+Below is an example of a `distance` field declared optional. This field would occupy either 1 byte on the wire, if the value was not present, or 9 bytes if the value was present (double always consumes 8 bytes on the wire).
 
 ```
 distance : double, optional;
@@ -214,7 +214,7 @@ distance : double, optional;
 
 ## Message Structure
 
-A PCOS message is made of __segments__. The first two segments are mandatory and the last segment is optional.
+A PCOS message is made of __segments__. The first two segments are mandatory and the last segment is optional:
 
 1. __Message Header__ segment.
 2. __Data Block Enumeration__ segment.
