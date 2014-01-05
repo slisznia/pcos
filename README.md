@@ -17,7 +17,7 @@ http://creativecommons.org/licenses/by/3.0/
 ## Table of Contents
 
 1. Primitive types
-2. Type aliases and combound types
+2. Type aliases and user-defined types
 3. Arrays
 4. Optional fields
 5. Message structure 
@@ -212,11 +212,11 @@ distance : double, optional;
 
 ## Message Structure
 
-A PCOS message consists of segments. Two of them are mandatory and one is optional:
+A PCOS message is made of __segments__. The first two segments are mandatory and the last segment is optional.
 
-1. _Message Header_ segment
-2. _Data Block Enumeration_ segment
-3. _Data Block_ segments (zero or more) 
+1. __Message Header__ segment.
+2. __Data Block Enumeration__ segment.
+3. __Data Block__ segments (zero or more) .
 
 Next, we go over each of the segments explaining its structure and purpose.
 
