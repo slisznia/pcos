@@ -73,7 +73,7 @@ decode_zigzag( n ):
 
 ### Varint example
 
-A number 160 encoded as signed varint looks like so:
+Let's have look at the encoding of a number 160 as a signed varint:
 
 ```
 1000 0010 0100 0000
@@ -82,11 +82,15 @@ The application reads one byte at a time, starting with the first octet:
 1000 0010
 |___more data bit!
 
-It then proceeds to read the second octet, which is also the last octet based on the MSB value:
+It then proceeds to read the second octet, which is also the last octet based
+on the MSB value:
+
 0100 0000
 |___last octet!
 
-We remember that each following octet fills space of the previous octet shifted 7 bits to the left and having its MSB dropped. Putting it all together, we have:
+We remember that each following octet fills space of the previous octet shifted
+7 bits to the left and having its MSB dropped. Putting it all together, we
+have:
 
 # drop MSB of first octet
 X000 0010
@@ -105,7 +109,8 @@ OR               100 0000
 # un-zigzag
 decode_zigzag( 320 ) == 160
 
-The last step, un-zigzag, would be omitted if the field was declared unsigned varint (uint).
+The last step, un-zigzag, would be omitted if the field was declared unsigned
+varint (uint).
 ```
 
 ## Type aliases and user-defined types
@@ -153,7 +158,7 @@ Example:
 
 ## Arrays
 
-An array is an ordered collection of values. Elements of an array can be of primitive or user-defined type. All of the values in an array must be of the same type. The type of the array is the type of the values it holds, followed by [] characters.
+An array is an ordered collection of values. Elements of an array are of primitive or user-defined type. All values stored in the array are of the same type. The type of the array is the type of the values it holds.
 
 ### Fixed-length array
 
@@ -197,21 +202,23 @@ The variable-length array has the following properties:
 
 ## Optional fields
 
-Fields in a data-block can have optional specifier. When a field is marked as optional, it’s an indication that a value may not be present. When serialized, optional fields are prefixed with a bool field indicating if the data is present, followed by the data itself.
+Fields in a data-block can have optional specifier. When a field is marked as optional, it’s an indication that a value may not be present on the wire. When serialized, optional fields are prefixed with a bool field indicating if the data is present, followed by the data itself.
 
-Below is an example of a "distance" field declared as optional. This field would occupy either 1 byte on the wire, if the value was not present, or 9 bytes if the value was present.
+Below is an example of a `distance` field declared as optional. This field would occupy either 1 byte on the wire, if the value was not present, or 9 bytes if the value was present (double consumes 8 bytes on the wire).
 
+```
 distance : double, optional;
+```
 
 ## Message Structure
 
-The PCOS message is made up of three segments:
+A PCOS message consists of segments. Two of them are mandatory and one is optional:
 
-* Message Header segment
-* Data Block Enumeration segment
-* Data Block segments (zero or more) 
+1. _Message Header_ segment
+2. _Data Block Enumeration_ segment
+3. _Data Block_ segments (zero or more) 
 
-Next, we go over each of the segments explaining their structure and purpose.
+Next, we go over each of the segments explaining its structure and purpose.
 
 ## The Message Header segment
 
@@ -251,15 +258,13 @@ type block_enumeration
 
 ### The Data Block segment
 
-Finally we arrive at the last segment type of the PCOS message — the Data Block segment. All message data, such as transaction and account information, must reside in a data block.
+Finally we arrive at the last and optional segment of the PCOS message — the Data Block segment. All user data, such as transaction or account information, must reside in a Data Block.
 
 A message may have zero or more data blocks and each data block may have a unique composition of user-defined or primitive types.
 
-All PCOS messages have their data blocks defined in this SDK and are guaranteed to stay binary compatible in the foreseeable future.
-
 ### Minimum PCOS message
 
-Putting all this together, let’s describe an absolute minimum PCOS message that we can encounter:
+Putting all this together, let's describe an absolute minimum PCOS message that we can encounter:
 
 ```
 type pcos_message
@@ -273,11 +278,7 @@ type pcos_message
 };
 ```
 
-Above tells us that the shortest PCOS message, one without any data blocks, is 8 bytes long. This is helpful as any payload shorter than that is simply not a valid PCOS message!
-
-### Recommended and maximum message lengths
-
-The PCOS protocol attempts to minimize the serialized message footprint. The recommended guideline for the PCOS serialized message length is 1024 bytes or less. Messages above 4096 bytes in length may be considered a DoS attack and be discarded.
+Above tells us that the shortest PCOS message, one without any data blocks, is 8 bytes long. This is helpful as any payload shorter than that is simply not a valid PCOS message and can be immediately discarded.
 
 ------------
 The End
