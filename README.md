@@ -16,11 +16,11 @@ http://creativecommons.org/licenses/by/3.0/
 
 ## Table of Contents
 
-### Primitive types
-### Type aliases and combound types
-### Arrays
-### Optional fields
-### Message structure 
+1. Primitive types
+2. Type aliases and combound types
+3. Arrays
+4. Optional fields
+5. Message structure 
 
 ## Primitive types
 
