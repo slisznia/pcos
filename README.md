@@ -233,9 +233,9 @@ A PCOS message is made of __segments__. The first two segments are mandatory and
 
 Next, we go over each of the segments explaining its structure and purpose.
 
-### The Message Header segment
+### The "Message Header" segment
 
-The __Message Header__ segment identifies a PCOS message on the wire. It is a mandatory segment in all PCOS messages and is defined as follows:
+The __Message Header__ segment identifies a PCOS message on the wire. It is a mandatory segment and is defined as follows:
 
 ```
 type message_header
@@ -246,9 +246,9 @@ type message_header
 };
 ```
 
-### The Data-Segment Enumeration segment
+### The "Data-Segment Enumeration" segment
 
-Following the __Message Header__, starts the mandatory __Data-Segment Enumeration__ segment. This segment enumerates data-carrying segments  — their identifiers and sizes — present in the message. Thanks to the enumeration segment, the receiving side can quickly locate segments of interest, while skipping segments it does not care about.
+Following the __Message Header__, starts the mandatory __Data-Segment Enumeration__ segment. This segment enumerates data-carrying segments  — their identifiers and sizes — present in the message. Thanks to the enumeration segment, the receiving side can quickly locate segments of interest, while skipping over segments it does not care about without any overhead of parsing.
 
 First, we define the **Data-Segment Meta** structure, which describes a single Data-Segment:
 
@@ -269,7 +269,7 @@ type data_segment_enumeration
 };
 ```
 
-### The Data-Segment segment
+### The "Data-Segment" segment
 
 At last, we arrive at the optional segment of any PCOS message — the __Data-Segment__. All user-provided message data, such as transaction record, account information or a PDF document, are put into the Data-Segments.
 
