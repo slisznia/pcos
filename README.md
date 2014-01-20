@@ -290,7 +290,7 @@ type pcos_message
 };
 ```
 
-Above tells us that a shortest PCOS message, one without any data-segments, is 8 bytes long. This is helpful as any payload shorter than that is simply not a valid PCOS message and can be immediately discarded.
+From above, we read that the shortest PCOS message, one without any data-segments, is 8-bytes long. This is helpful as any payload shorter than that is simply not a valid PCOS message and can be immediately discarded.
 
 ------------
 The End
