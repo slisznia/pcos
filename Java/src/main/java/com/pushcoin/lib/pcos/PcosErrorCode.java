@@ -18,7 +18,8 @@
 
 package com.pushcoin.lib.pcos;
 
-public enum PcosErrorCode {
+public enum PcosErrorCode
+{
 	/**
 	 * Error code constants.
 	 */
