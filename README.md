@@ -1,6 +1,8 @@
 
 # Portable, Compact Object Serialization (PCOS)
 
+MIME type name: "application/vnd.pcos"
+
 PCOS is a binary-encoding originally created at PushCoin for inter-application messaging. The serialization is both language and platform neutral. It supports basic types, such as integers, strings and bytes as well as user-defined compound types. User-defined types can nest, forming even more complex types.
 
 PCOS borrows from other binary interchange formats, such that it's schema-based. One major distinction is that PCOS is not a "name-value pair" on the wire, making PCOS very compact and efficient to parse.
@@ -291,6 +293,11 @@ type pcos_message
 ```
 
 From above, we read that the shortest PCOS message, one without any data-segments, is 8-bytes long. This is helpful as any payload shorter than that is simply not a valid PCOS message and can be immediately discarded.
+
+## References
+
+1. MIME type application - http://www.iana.org/assignments/media-types/application/vnd.pcos
+2. Google Protobuffers - https://developers.google.com/protocol-buffers/
 
 ------------
 The End
