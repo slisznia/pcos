@@ -18,12 +18,12 @@
 
 package com.pushcoin.lib.pcos;
 
-public class PcosError extends Exception 
+/**
+ * Exception type thrown from PCOS functions when parsing or writing data.
+ */
+public class PcosError extends RuntimeException 
 {
-	/**
-	 * Exception type thrown from PCOS functions when parsing or writing data.
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private final int code_;
 	
 	public PcosError(PcosErrorCode ercode, String reason)
