@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 #	Copyright (c) 2012 Minta, Inc.
 #
 #	GNU General Public Licence (GPL)
@@ -36,6 +38,9 @@ __author__	 = '''Slawomir Lisznianski <sl@pushcoin.com>'''
 # 15 => 5
 # 16 => 7
 
+from optparse import OptionParser, OptionError
+import random, math
+
 class	Pcos16Aalphabet():
 	 '''Stores the PCOS-16 Alphabet'''
 	 def __init__(self):
@@ -68,3 +73,26 @@ def decode(pretty):
 
 		bytestr.append( (oktet1 << 4) | oktet2 )
 	return	bytestr
+
+
+def randbytes(n):
+	return [chr(random.getrandbits(8)) for i in range(n)]
+
+
+if __name__ == "__main__":
+	# program arguments
+	usage = "usage: %prog [options]"
+	version = "PushCoin ID Generator v1.0"
+	parser = OptionParser(usage, version = version)
+	parser.add_option("-L", "--length", dest="id_size", type="int", action="store", default=10, help="length of generated ID")
+	parser.add_option("-N", "--count", dest="count", type="int", action="store", default=5, help="number of IDs to generate")
+	
+	(opts, args) = parser.parse_args()
+	
+	print version
+
+	for i in range(opts.count):
+		random_bytes = randbytes(int(math.ceil(opts.id_size/2.0)))
+		print (encode( random_bytes )[:opts.id_size])
+	
+	exit(0)
