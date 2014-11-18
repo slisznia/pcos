@@ -35,4 +35,11 @@ public interface InputBlock
 	int readingPosition();
 	String name();
 	int size();
+
+	// Used to review data ahead of parsing.
+	interface Inspector {
+		boolean inspect(byte[] input, int offset, int len);
+	}
+
+	boolean inspect( Inspector inspector );
 }

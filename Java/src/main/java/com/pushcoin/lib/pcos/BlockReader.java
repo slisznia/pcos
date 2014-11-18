@@ -42,6 +42,11 @@ public class BlockReader implements InputBlock
 	}
 	
 	@Override
+	public boolean inspect( Inspector inspector ) throws PcosError {
+		return inspector.inspect(input_, offset_, end_ - offset_);
+	}
+
+	@Override
 	public boolean readBool() throws PcosError 
 	{
 		return readByte() != 0;
