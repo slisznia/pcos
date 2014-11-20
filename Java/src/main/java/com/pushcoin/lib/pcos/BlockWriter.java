@@ -82,8 +82,7 @@ public class BlockWriter implements OutputBlock
 	@Override
 	public void writeBytes(byte[] v) throws PcosError 
 	{
-		try
-		{
+		try {
 			output_.write(v);
 		} catch (IOException e)	{
 			throw malformed_;
@@ -93,8 +92,7 @@ public class BlockWriter implements OutputBlock
 	@Override
 	public void writeDouble(double v) throws PcosError 
 	{
-		try
-		{
+		try {
 			output_.writeDouble(v);
 		} catch (IOException e)	{
 			throw malformed_;
@@ -104,16 +102,26 @@ public class BlockWriter implements OutputBlock
 	@Override
 	public void writeByteStr(byte[] s) throws PcosError 
 	{
-		writeUint(s.length);
-		writeBytes(s);
+		if (s != null)
+		{
+			writeUint(s.length);
+			writeBytes(s);
+		}
+		else {
+			writeUint(0);
+		}
 	}
 
 	@Override
 	public void writeString(String s) throws PcosError 
 	{
-		try	{
+		try
+		{
 			/* PCOS uses UTF-8 encoding on the wire */
-			final byte[] encoded_str = s.getBytes(ProtocolTag.PROTOCOL_CHARSET);
+			byte[] encoded_str = null;
+			if (s != null) {
+				encoded_str = s.getBytes(ProtocolTag.PROTOCOL_CHARSET);
+			}
 			writeByteStr(encoded_str);
 		} catch (UnsupportedEncodingException e)	{
 			throw new PcosError( PcosErrorCode.ERR_BAD_CHAR_ENCODING, "output string encoding error" );

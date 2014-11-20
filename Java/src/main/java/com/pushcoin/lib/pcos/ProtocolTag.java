@@ -22,6 +22,7 @@ public class ProtocolTag
 {
 	public static final int MAX_MESSAGE_ID_LEN = 128;
 	public static final int MAX_BLOCK_ID_LENGTH = 64;
+	public static final int MIN_MESSAGE_LENGTH = 7;
 	public static final byte[] PROTOCOL_MAGIC = new byte[]{'P','C','O','S'};
 	public static final int PROTOCOL_MAGIC_LEN = 4;
 	public static final byte PROTOCOL_FLAGS = 0x0;

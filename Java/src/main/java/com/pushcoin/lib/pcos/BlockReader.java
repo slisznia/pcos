@@ -66,6 +66,9 @@ public class BlockReader implements InputBlock
 	@Override
 	public byte[] readBytes(long length) throws PcosError 
 	{
+		if (length == 0) {
+			return null;
+		}
 		if (end_ - offset_ >= length)
 		{
 			byte[] val = Arrays.copyOfRange(input_, offset_, (int) (offset_+ length));
@@ -151,10 +154,15 @@ public class BlockReader implements InputBlock
 	@Override
 	public String readString(long maxlen) throws PcosError
 	{
-		try {
-		byte[] encoded_str = readByteStr( maxlen );
-		return new String(encoded_str, ProtocolTag.PROTOCOL_CHARSET);
-		} catch (UnsupportedEncodingException e)	{
+		try
+		{
+			byte[] encoded_str = readByteStr( maxlen );
+			if (encoded_str == null) {
+				return null;
+			}
+			return new String(encoded_str, ProtocolTag.PROTOCOL_CHARSET);
+		}
+		catch (UnsupportedEncodingException e)	{
 			throw new PcosError( PcosErrorCode.ERR_BAD_CHAR_ENCODING, "input string decoding error" );
 		}
 	}

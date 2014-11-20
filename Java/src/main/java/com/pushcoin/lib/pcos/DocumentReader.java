@@ -65,11 +65,17 @@ public class DocumentReader implements InputDocument
 
 	public DocumentReader(byte[] input, int length) throws PcosError
 	{
+		if (input == null || input.length < ProtocolTag.MIN_MESSAGE_LENGTH) {
+			throw new PcosError( PcosErrorCode.ERR_MALFORMED_MESSAGE, "Empty or truncated message");
+		}
 		parseBytes(input, length);
 	}
 
 	public DocumentReader(byte[] input) throws PcosError
 	{
+		if (input == null || input.length < ProtocolTag.MIN_MESSAGE_LENGTH) {
+			throw new PcosError( PcosErrorCode.ERR_MALFORMED_MESSAGE, "Empty or truncated message");
+		}
 		parseBytes(input, input.length);
 	}
 
@@ -109,6 +115,9 @@ public class DocumentReader implements InputDocument
 		{
 			BlockMeta blk = new BlockMeta();
 			blk.name = inblock.readString( ProtocolTag.MAX_BLOCK_ID_LENGTH );
+			if (blk.name == null) {
+				throw new PcosError( PcosErrorCode.ERR_MALFORMED_MESSAGE, "PCOS-block without a name" );
+			}
 			blk.length = inblock.readUint();
 			stageBlocks.add(blk);
 		}
